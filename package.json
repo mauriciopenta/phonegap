@@ -1,0 +1,24 @@
+{
+  "name": "org.com.meewfr7i",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "displayName": "meewfr7i",
+  "dependencies": {
+    "cordova-android": "^6.3.0",
+    "cordova-plugin-inappbrowser": "^2.0.1",
+    "phonegap-plugin-push": "^1.8.4"
+  },
+  "cordova": {
+    "plugins": {
+      "phonegap-plugin-push": {
+        "SENDER_ID": "XXXXXXX"
+      },
+      "cordova-plugin-inappbrowser": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}

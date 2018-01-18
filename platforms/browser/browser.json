@@ -1,0 +1,56 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "phonegap-plugin-push": {
+      "SENDER_ID": "XXXXXXX",
+      "PACKAGE_NAME": "org.com.meewfr7i"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "org.com.meewfr7i"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "file": "plugins/phonegap-plugin-push/www/push.js",
+      "id": "phonegap-plugin-push.PushNotification",
+      "pluginId": "phonegap-plugin-push",
+      "clobbers": [
+        "PushNotification"
+      ]
+    },
+    {
+      "file": "plugins/phonegap-plugin-push/www/browser/push.js",
+      "id": "phonegap-plugin-push.BrowserPush",
+      "pluginId": "phonegap-plugin-push",
+      "clobbers": [
+        "PushNotification"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+      "id": "cordova-plugin-inappbrowser.inappbrowser",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "clobbers": [
+        "cordova.InAppBrowser.open",
+        "window.open"
+      ]
+    },
+    {
+      "file": "plugins/cordova-plugin-inappbrowser/src/browser/InAppBrowserProxy.js",
+      "id": "cordova-plugin-inappbrowser.InAppBrowserProxy",
+      "pluginId": "cordova-plugin-inappbrowser",
+      "runs": true
+    }
+  ],
+  "plugin_metadata": {
+    "phonegap-plugin-push": "1.8.4",
+    "cordova-plugin-inappbrowser": "2.0.1"
+  }
+}
