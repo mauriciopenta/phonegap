@@ -83,7 +83,7 @@ padding:10px 0;
 margin:0px;
 }
 .homepage{
-    background: url(../images/bg.jpg) no-repeat center center;
+    /*background: url(../images/bg.jpg) no-repeat center center;*/
     background-attachment: scroll;
     background-size: auto auto;
 background-attachment: fixed;

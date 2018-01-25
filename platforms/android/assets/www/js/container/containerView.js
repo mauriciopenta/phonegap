@@ -4,7 +4,7 @@ define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/containe
         var content="";
         $.ajax({
                 url: 'http://meew.co/dashmeew/index.php/site/dataContent',
-//                url: 'http://192.168.0.4/meew/index.php/site/dataContent',
+//                url: 'http://localhost/meew/index.php/site/dataContent',
                 dataType: 'json',
                 data:{idmod:params.idmod},
                 type: 'post',

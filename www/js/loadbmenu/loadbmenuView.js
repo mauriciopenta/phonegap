@@ -1,7 +1,8 @@
 define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/container/contacto','hbs!js/container/soporte'], function(viewGallery,viewContainer,viewContacto,viewSoporte) {
     var f7 = new Framework7();
     function render(params) {
-        var content="";
+//        console.log(params.idmod);
+//        $('.planes-page'+params.id).html(viewSoporte);
         $.ajax({
                 url: 'http://meew.co/dashmeew/index.php/site/dataContent',
 //                url: 'http://localhost/meew/index.php/site/dataContent',
@@ -31,8 +32,8 @@ define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/containe
     function cargaContenido(data,params){
         switch(params.tipomod){
             case "1":
-                $('.titlecont').html(params.nombremod);
-                $('.container-page').html(viewGallery);
+//                $('.titlecont').html(params.nombremod);
+                $('.planes-page'+params.id).html(viewGallery);
         //        $('.textogallery').html("texto de la galería");
         //        $('.imagesgallery').html("imagesgallery");
         //        $('.videosgallery').html("videosgallery"); 
@@ -53,7 +54,7 @@ define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/containe
                 $('.videosgallery').html(videos); 
             break;
             case "2":
-                $('.titlecont').html(params.nombremod);
+//                $('.titlecont').html(params.nombremod);
         //        $('.textogallery').html("texto de la galería");
         //        $('.imagesgallery').html("imagesgallery");
         //        $('.videosgallery').html("videosgallery"); 
@@ -65,15 +66,15 @@ define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/containe
                     }
                     
                 });
-                $('.container-page').html(imagenes);
+                $('.planes-page'+params.id).html(imagenes);
                 break;
             case "3":
 //                var textohtml='<div class="page-content">'+data.content+'</div>';
-                $('.container-page').html(viewContainer);
+                $('.planes-page'+params.id).html(viewContainer);
                 $('.page-content-articulo').html(data.content);
                 break;
             case "4":
-                $('.container-page').html(viewContacto);
+                $('.planes-page'+params.id).html(viewContacto);
                 $('.nombre').text(localStorage.getItem('personanombre'));
                 initialize();
                 break;
@@ -83,7 +84,7 @@ define(['hbs!js/container/gallery','hbs!js/container/container','hbs!js/containe
                  $.each(data.content,function(key,value){
                         opciones+='<option value="'+value.idtema_soporte+'">'+value.titulo+'</option>';
                 });
-                $('.container-page').html(viewSoporte);
+                $('.planes-page'+params.id).html(viewSoporte);
                 $('.temasoporte').html(opciones);
                 
                 break;

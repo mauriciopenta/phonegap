@@ -24,6 +24,14 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
             animateNavBackIcon: true,
             pushState: true
     });
+    var ret={
+        f7: f7
+//        mainView: mainView,
+//        view1:view1,
+//        view2:view2,
+////        view3:view3,
+//        router: Router
+    };
     localStorage.setItem("pagina",0);
     localStorage.setItem('email', "");
     var email=localStorage.getItem('email');
@@ -77,7 +85,11 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
             }
         });
     });
-   
+    var mainView = f7.addView('.view-main', {
+        dynamicNavbar: true
+    });
+    ret['mainView']=mainView;
+    
     $$('.salir').on('click',function(){
         navigator.app.exitApp();
     });
@@ -109,8 +121,8 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
             contact.setValues(formInput);
             var datos=JSON.stringify(contact);
             $.ajax({
-//                url: 'http://meew.co/dashmeew/index.php/site/loginPlatformMovile',
-                url: 'http://localhost/meew/index.php/site/loginPlatformMovile',
+                url: 'http://meew.co/dashmeew/index.php/site/loginPlatformMovile',
+//                url: 'http://localhost/meew/index.php/site/loginPlatformMovile',
                 dataType: 'json',
                 data:JSON.parse(datos),
                 type: 'post',
@@ -118,23 +130,27 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
                 crossDomain : true,
                 before: f7.showPreloader(),
                 success: function(data) {
-                    console.log(JSON.stringify(data.contplantilla)+"------------|||||----------------");
+                    console.log(JSON.stringify(data.contmb)+"------------|||||----------------");
 //                    var retrivedContent=localStorage.getItem('content');
 //                    console.log(JSON.parse(retrivedContent));
                     
                     f7.hidePreloader();
                     if(data.status=='exito'){
+                        cargacssBackground(data.image);
 //                        $(".main-page").css("background",'url('+data.image+') no-repeat center center');
-                        $(".main-page").addClass('homepage');
+//                        $(".main-page").addClass('homepage');
+                        
                         localStorage.setItem('content', JSON.stringify(data.contplantilla));
                         localStorage.setItem('email', data.usuario.email);
                         localStorage.setItem('personid', data.usuario.personid);
                         localStorage.setItem('personanombre', data.usuario.nombre);
                         localStorage.setItem('token', data.usuario.token);
                         localStorage.setItem("idplantilla", data.idplantilla);
-                        console.log(localStorage.getItem("personanombre")+"---------------------");
-                        Router.load("list");
                         f7.closeModal(".login-screen",false);
+                        cargaMenuBottom(JSON.stringify(data.contmb));
+//                        console.log(localStorage.getItem("personanombre")+"---------------------");
+                        Router.load("list");
+                        
                     }
                     else{
                         f7.alert(data.msg);
@@ -154,7 +170,59 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
 //         f7.closeModal('.login-screen',false);
 //       });
     }
-    
+    function cargaMenuBottom(contmb){
+        var number=3;
+        var contmbAux=JSON.parse(contmb);
+        console.log(contmbAux);
+        $.each(contmbAux,function(key,v){
+            number=number+1;
+            
+            var contentmb='<div id="view-'+number+'" class="view tab">'+
+            'We can make with view with navigation, let\'s add Top Navbar'+
+          '<div class="navbar">'+
+             '<div class="navbar-inner">'+
+               '<div class="center sliding"><span class="navbar-logo"></span></div>'+
+             '</div>'+
+           '</div>'+
+           '<div class="pages navbar-through">'+
+                '<div class="page planes-page'+number+'">'+
+                    number+
+                '</div>'+
+           '</div>'+
+         '</div>';
+            $('.views').append(contentmb);
+            var menBottom='<a href="#view-'+number+'" class="tab-link view-'+number+'">'+
+                    '<i class="f7-icons size-50 color-custom">'+v.icon+'</i><span class="tabbar-label">'+v.nombre_modulo+'</span>'
+                '</a>';
+                $('.toolbar-inner').append(menBottom);
+                
+            window["view"+number] = f7.addView('#view-'+number,{dynamicNavbar:true});
+            ret["view"+number]=window["view"+number];
+            creaEvento(number,v);
+            
+        });
+        
+    }
+    function creaEvento(n,v){
+        $(".view-"+n).on('click',function(){
+                console.log("pasa a vista "+n);
+                Router.load("loadbmenu",{id:n,idmod:v.id_modulo_app,tipomod:v.tipo_modulo,nombremod:v.nombre_modulo});
+            });
+    }
+    function cargacssBackground(image){
+        $(".main-page").css("background",'url(images/'+image+') no-repeat center center');
+        $(".main-page").css("background-attachment",'scroll');
+        $(".main-page").css("background-size",'auto auto');
+        $(".main-page").css("background-attachment",'fixed');
+        $(".main-page").css("-webkit-background-size",'100%');
+        $(".main-page").css("-moz-background-size",'100%');
+        $(".main-page").css("-o-background-size",'100%');
+        $(".main-page").css("background-size",'100%');
+        $(".main-page").css("-webkit-background-size",'cover');
+        $(".main-page").css("-moz-background-size",'cover');
+        $(".main-page").css("-o-background-size",'cover');
+        $(".main-page").css("background-size",'cover');
+    }
     $$('.link-register').on('click', function () {
         f7.popup('.popup-register',false); 
         $("#fomr-serv").validate({
@@ -193,15 +261,18 @@ define('app',['js/router','js/contactModel'], function(Router,Contact) {
     });
     $$('.open-services').on('click', function () {
         f7.popup('.popup-services');
-    }); 
-    var mainView = f7.addView('.view-main', {
+    });var mainView = f7.addView('.view-main', {
         dynamicNavbar: true
-    });
+    }); 
+    
     document.addEventListener("backbutton", onBackKeyDown, false); 
     var view1=f7.addView('#view-1',{dynamicNavbar:true});
-    var view2=f7.addView('#view-2',{dynamicNavbar:true});
+//    var view2=f7.addView('#view-2',{dynamicNavbar:true});
 //    var view3=f7.addView('#view-3',{dynamicNavbar:true});
-    
+    ret['view1']=view1;
+//    ret['view2']=view2;
+//    ret['view3']=view3;
+    ret['router']=Router;
     f7.onPageInit('*',function(page){
 //        document.addEventListener("backbutton", onBackKeyDown, false); 
         $$(page.navbarInnerContainer).find('.envia_cserv').on('click',function(){ 
@@ -284,13 +355,13 @@ mainView.activePage.name="list";
         }
     }
     
-    return {
-        f7: f7,
-        mainView: mainView,
-        view1:view1,
-        view2:view2,
+   return ret//{
+//        f7: f7,
+//        mainView: mainView,
+//        view1:view1,
+//        view2:view2,
 //        view3:view3,
-        router: Router
-    };
+//        router: Router
+//    }
 });
 
